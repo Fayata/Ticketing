@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buka Tiket</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="success-container">
+        <h1>Buka Tiket</h1>
+        
+        <div class="success-box">
+            Ticket Created #{{ ticket.id }}
+        </div>
+        
+        <p class="success-message">
+            Tiket sudah berhasil dikirim dan akan segera dibalas.
+        </p>
+        
+        <a href="#" class="success-button">Lanjutkan</a>
+    </div>
+</body>
+</html>

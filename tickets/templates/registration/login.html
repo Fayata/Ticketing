@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Portal Pelanggan</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="form-container" style="max-width: 400px;">
+        <h2>Login Portal Pelanggan</h2>
+        
+        {% if form.errors %}
+            <p style="color: red;">Username atau password Anda salah.</p>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group full-width">
+                <label for="id_username">Username</label>
+                <input type="text" name="username" id="id_username" required>
+            </div>
+            
+            <div class="form-group full-width">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" id="id_password" required>
+            </div>
+            
+            <button type="submit">Login</button>
+        </form>
+        <p style="margin-top: 15px;">Belum punya akun? <a href="/admin/">Buat di Admin</a></p>
+        </div>
+</body>
+</html>

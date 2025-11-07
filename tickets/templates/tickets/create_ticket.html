@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kirim Tiket Baru</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="form-container"> 
+        <div style="margin-bottom: 20px;">
+            <a href="{% url 'dashboard' %}">&larr; Kembali ke Dashboard</a>
+        </div>
+        <h2>Kirim Tiket</h2>
+        
+        <form method="POST"> {% csrf_token %}
+
+            <div class="form-group full-width">
+                <label for="nama">Nama * (dari Akun Anda)</label>
+                <input type="text" id="nama" value="{{ user.get_full_name|default:user.username }}" readonly>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="{{ form.reply_to_email.id_for_label }}">{{ form.reply_to_email.label }}</label>
+                {{ form.reply_to_email }}
+                <small>Notifikasi akan dikirim ke email ini.</small>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="{{ form.title.id_for_label }}">Judul *</label>
+                {{ form.title }}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.department.id_for_label }}">Departemen</label>
+                    {{ form.department }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.priority.id_for_label }}">Prioritas</label>
+                    {{ form.priority }}
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="{{ form.description.id_for_label }}">Pesan *</label>
+                {{ form.description }}
+            </div>
+
+            <button type="submit">Kirim</button>
+        </form>
+    </div>
+</body>
+</html>

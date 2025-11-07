@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Selamat Datang, {{ user.username }}!</h2>
+        <p>Ini adalah portal pelanggan Anda.</p>
+        
+        <a href="{% url 'create-ticket' %}" class="success-button" style="margin-right: 10px;">Buat Tiket Baru</a>
+        <a href="{% url 'logout' %}" class="success-button" style="background-color: #dc3545;">Logout</a>
+
+        <h3 style="margin-top: 30px;">Tiket Saya</h3>
+        <p>(Daftar tiket akan muncul di sini nanti)</p>
+    </div>
+</body>
+</html>

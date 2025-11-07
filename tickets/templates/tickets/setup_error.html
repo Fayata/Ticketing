@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Konfigurasi</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="error-container">
+        <h2>Error Konfigurasi</h2>
+        <p>
+            Sistem belum bisa menerima tiket baru karena belum ada <strong>Departemen</strong> yang terdaftar.
+        </p>
+        <p>
+            Silakan login ke <a href="/admin/">panel admin</a> dan buat minimal satu 'Department'
+            di bawah aplikasi 'Tickets'.
+        </p>
+    </div>
+</body>
+</html>
