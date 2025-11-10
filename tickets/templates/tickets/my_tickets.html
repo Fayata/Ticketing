@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiket Saya - Portal Ticketing</title>
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+    <style>
+        .filters-bar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .filters-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-group label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .filter-input,
+        .filter-select {
+            padding: 0.625rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+        }
+        
+        .filter-input:focus,
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .filter-btn {
+            padding: 0.625rem 1.5rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-btn:hover {
+            background: var(--primary-blue-hover);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .empty-state svg {
+            width: 5rem;
+            height: 5rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-state p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .filters-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (sama seperti dashboard) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="{% url 'dashboard' %}" class="logo">TicketDesk</a>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="{% url 'dashboard' %}" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                
+                <a href="{% url 'my-tickets' %}" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    </svg>
+                    <span>Tiket Saya</span>
+                </a>
+                
+                <a href="{% url 'knowledge-base-list' %}" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    </svg>
+                    <span>Knowledge Base</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-user">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        {{ user.username|slice:":2"|upper }}
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name">{{ user.get_full_name|default:user.username }}</div>
+                        <div class="user-email">{{ user.email }}</div>
+                    </div>
+                </div>
+                <div class="user-actions">
+                    <a href="{% url 'user-settings' %}" class="user-action-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <span>Settings</span>
+                    </a>
+                    <a href="{% url 'logout' %}" class="user-action-btn logout">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        </svg>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <h1>Tiket Saya</h1>
+                    <p>Kelola semua tiket support Anda</p>
+                </div>
+                <div class="header-actions">
+                    <a href="{% url 'create-ticket' %}" class="btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Buat Tiket Baru
+                    </a>
+                </div>
+            </header>
+
+            <div class="content">
+                <!-- Filters -->
+                <div class="filters-bar">
+                    <form method="GET" class="filters-form">
+                        <div class="filter-group">
+                            <label>Cari Tiket</label>
+                            <input type="text" name="search" value="{{ search_query }}" 
+                                   placeholder="Cari berdasarkan judul, deskripsi, atau ID..." 
+                                   class="filter-input">
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>Status</label>
+                            <select name="status" class="filter-select">
+                                <option value="all" {% if status_filter == 'all' %}selected{% endif %}>Semua Status</option>
+                                <option value="open" {% if status_filter == 'open' %}selected{% endif %}>Open</option>
+                                <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>In Progress</option>
+                                <option value="closed" {% if status_filter == 'closed' %}selected{% endif %}>Closed</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>Prioritas</label>
+                            <select name="priority" class="filter-select">
+                                <option value="all" {% if priority_filter == 'all' %}selected{% endif %}>Semua Prioritas</option>
+                                <option value="low" {% if priority_filter == 'low' %}selected{% endif %}>Low</option>
+                                <option value="medium" {% if priority_filter == 'medium' %}selected{% endif %}>Medium</option>
+                                <option value="high" {% if priority_filter == 'high' %}selected{% endif %}>High</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <button type="submit" class="filter-btn">Filter</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tickets List -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>{{ tickets.count }} Tiket Ditemukan</h2>
+                    </div>
+                    <div class="card-body">
+                        {% if tickets %}
+                            <div class="ticket-list">
+                                {% for ticket in tickets %}
+                                <div class="ticket-item" onclick="window.location.href='{% url 'ticket-detail' ticket.id %}'">
+                                    <div class="ticket-header">
+                                        <div>
+                                            <div class="ticket-id-status">
+                                                <span class="ticket-id">#TKT-{{ ticket.id }}</span>
+                                                <span class="status-badge {% if ticket.status == 'OPEN' %}open{% elif ticket.status == 'IN_PROGRESS' %}in-progress{% else %}closed{% endif %}">
+                                                    {{ ticket.get_status_display }}
+                                                </span>
+                                            </div>
+                                            <h3 class="ticket-title">{{ ticket.title }}</h3>
+                                            <div class="ticket-meta">
+                                                <span class="ticket-meta-item">
+                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                                    </svg>
+                                                    {{ ticket.department.name|default:"Umum" }}
+                                                </span>
+                                                <span class="ticket-meta-item priority-{% if ticket.priority == 'HIGH' %}high{% elif ticket.priority == 'MEDIUM' %}medium{% else %}low{% endif %}">
+                                                    {{ ticket.get_priority_display }} Priority
+                                                </span>
+                                                <span class="ticket-meta-item">
+                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                                    </svg>
+                                                    {{ ticket.get_reply_count }} balasan
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ticket-footer">
+                                        <span>Dibuat: {{ ticket.created_at|date:"d M Y, H:i" }}</span>
+                                        <span>Update: {{ ticket.updated_at|date:"d M Y, H:i" }}</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="empty-state">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                </svg>
+                                <h3>Tidak Ada Tiket</h3>
+                                <p>Belum ada tiket yang sesuai dengan filter Anda</p>
+                                <a href="{% url 'create-ticket' %}" class="btn-primary">Buat Tiket Pertama</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{% static 'dashboard.js' %}"></script>
+</body>
+</html>
