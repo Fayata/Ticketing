@@ -1,24 +1,27 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Buka Tiket</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiket Berhasil Dibuat - Portal Ticketing</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'pages.css' %}">
 </head>
 <body>
     <div class="success-container">
-        <h1>Buka Tiket</h1>
+        <h1>Tiket Berhasil Dibuat</h1>
         
         <div class="success-box">
             Ticket Created #{{ ticket.id }}
         </div>
         
         <p class="success-message">
-            Tiket sudah berhasil dikirim dan akan segera dibalas.
+            Tiket Anda sudah berhasil dikirim dan akan segera dibalas oleh tim support. 
+            Anda akan menerima notifikasi melalui email saat ada balasan.
         </p>
         
-        <a href="#" class="success-button">Lanjutkan</a>
+        <a href="{% url 'dashboard' %}" class="success-button">Kembali ke Dashboard</a>
     </div>
 </body>
 </html>

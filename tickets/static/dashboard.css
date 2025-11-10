@@ -5,9 +5,48 @@
     box-sizing: border-box;
 }
 
+/* Empty State Styles */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #6b7280;
+}
+
+.empty-state-icon {
+    margin: 0 auto 1rem;
+    display: block;
+}
+
+.empty-state-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #374151;
+}
+
+.empty-state-text {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* Card Spacing */
+.card-spacing {
+    margin-top: 1.5rem;
+}
+
+/* Card Header Border */
+.card-header-border {
+    border-top: 1px solid var(--border-color);
+    border-bottom: none;
+}
+
+.view-all-link-center {
+    margin: 0 auto;
+}
+
 :root {
-    --primary-blue: #3b82f6;
-    --primary-blue-hover: #2563eb;
+    --primary-blue: #ef4522;
+    --primary-blue-hover: #eb2825;
     --primary-blue-light: #dbeafe;
     --secondary-purple: #8b5cf6;
     --text-primary: #1f2937;
@@ -23,7 +62,7 @@
     --warning-bg: #fef3c7;
     --error-color: #ef4444;
     --error-bg: #fee2e2;
-    --info-color: #3b82f6;
+    --info-color: #ee170f;
     --info-bg: #dbeafe;
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -186,7 +225,7 @@ body {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 9999px;
-    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-purple));
+    background: linear-gradient(135deg, var(--error-color), var(--error-color));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -358,7 +397,7 @@ body {
 
 /* Welcome Banner */
 .welcome-banner {
-    background: linear-gradient(135deg, var(--primary-blue), #2563eb);
+    background: linear-gradient(135deg, var(--primary-blue), #eb140c);
     border-radius: var(--radius-lg);
     padding: 2rem;
     color: white;
@@ -549,6 +588,12 @@ body {
     flex-direction: column;
 }
 
+.ticket-item-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
 .ticket-item {
     padding: 1.5rem;
     border-bottom: 1px solid var(--border-color);
@@ -560,6 +605,7 @@ body {
     border-bottom: none;
 }
 
+.ticket-item-link:hover .ticket-item,
 .ticket-item:hover {
     background: var(--bg-secondary);
 }

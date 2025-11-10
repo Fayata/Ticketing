@@ -1,16 +1,16 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Kirim Tiket Baru</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirim Tiket Baru - Portal Ticketing</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'forms.css' %}">
 </head>
 <body>
     <div class="form-container"> 
-        <div style="margin-bottom: 20px;">
-            <a href="{% url 'dashboard' %}">&larr; Kembali ke Dashboard</a>
-        </div>
+        <a href="{% url 'dashboard' %}" class="form-back-link">&larr; Kembali ke Dashboard</a>
         <h2>Kirim Tiket</h2>
         
         <form method="POST"> {% csrf_token %}

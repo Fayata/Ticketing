@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Portal Ticketing</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'settings.css' %}">
+</head>
+<body>
+    <div class="settings-container">
+        <a href="{% url 'dashboard' %}" class="back-link">
+            ← Kembali ke Dashboard
+        </a>
+        
+        <div class="settings-header">
+            <h1>Pengaturan Akun</h1>
+            <p>Kelola informasi profil dan keamanan akun Anda</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Profile Settings -->
+        <div class="settings-card">
+            <h2>Informasi Profil</h2>
+            <form method="post" action="{% url 'user-settings' %}">
+                {% csrf_token %}
+                <input type="hidden" name="update_profile" value="1">
+                
+                <div class="form-group">
+                    <label for="{{ profile_form.username.id_for_label }}" class="form-label">
+                        {{ profile_form.username.label }}
+                    </label>
+                    {{ profile_form.username }}
+                    {% if profile_form.username.help_text %}
+                        <div class="form-help">{{ profile_form.username.help_text }}</div>
+                    {% endif %}
+                    {% if profile_form.username.errors %}
+                        <div class="form-error">{{ profile_form.username.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ profile_form.email.id_for_label }}" class="form-label">
+                        {{ profile_form.email.label }}
+                    </label>
+                    {{ profile_form.email }}
+                    {% if profile_form.email.help_text %}
+                        <div class="form-help">{{ profile_form.email.help_text }}</div>
+                    {% endif %}
+                    {% if profile_form.email.errors %}
+                        <div class="form-error">{{ profile_form.email.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ profile_form.first_name.id_for_label }}" class="form-label">
+                        {{ profile_form.first_name.label }}
+                    </label>
+                    {{ profile_form.first_name }}
+                    {% if profile_form.first_name.errors %}
+                        <div class="form-error">{{ profile_form.first_name.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ profile_form.last_name.id_for_label }}" class="form-label">
+                        {{ profile_form.last_name.label }}
+                    </label>
+                    {{ profile_form.last_name }}
+                    {% if profile_form.last_name.errors %}
+                        <div class="form-error">{{ profile_form.last_name.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn-primary">Simpan Perubahan</button>
+            </form>
+        </div>
+
+        <!-- Password Change -->
+        <div class="settings-card">
+            <h2>Ubah Password</h2>
+            <form method="post" action="{% url 'user-settings' %}">
+                {% csrf_token %}
+                <input type="hidden" name="change_password" value="1">
+                
+                <div class="form-group">
+                    <label for="{{ password_form.old_password.id_for_label }}" class="form-label">
+                        {{ password_form.old_password.label }}
+                    </label>
+                    {{ password_form.old_password }}
+                    {% if password_form.old_password.errors %}
+                        <div class="form-error">{{ password_form.old_password.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ password_form.new_password1.id_for_label }}" class="form-label">
+                        {{ password_form.new_password1.label }}
+                    </label>
+                    {{ password_form.new_password1 }}
+                    {% if password_form.new_password1.help_text %}
+                        <div class="form-help">{{ password_form.new_password1.help_text }}</div>
+                    {% endif %}
+                    {% if password_form.new_password1.errors %}
+                        <div class="form-error">{{ password_form.new_password1.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ password_form.new_password2.id_for_label }}" class="form-label">
+                        {{ password_form.new_password2.label }}
+                    </label>
+                    {{ password_form.new_password2 }}
+                    {% if password_form.new_password2.errors %}
+                        <div class="form-error">{{ password_form.new_password2.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn-primary">Ubah Password</button>
+            </form>
+        </div>
+
+        <!-- Account Info -->
+        <div class="settings-card">
+            <h2>Informasi Akun</h2>
+            <div class="form-group">
+                <label class="form-label">Tanggal Bergabung</label>
+                <div class="account-info-item">
+                    {{ user.date_joined|date:"d F Y, H:i" }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Terakhir Login</label>
+                <div class="account-info-item">
+                    {{ user.last_login|date:"d F Y, H:i"|default:"Belum pernah login" }}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

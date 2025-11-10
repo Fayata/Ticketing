@@ -6,17 +6,17 @@
 }
 
 :root {
-    --primary-color: #6366f1;
-    --primary-hover: #4f46e5;
+    --primary-color: #cd1414;
+    --primary-hover: #f32d0a;
     --primary-light: #818cf8;
-    --secondary-color: #8b5cf6;
+    --secondary-color: #f7f7f9;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --text-light: #9ca3af;
     --border-color: #e5e7eb;
     --bg-primary: #ffffff;
     --bg-secondary: #f9fafb;
-    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --bg-gradient: linear-gradient(135deg, #eabdb9 0%, #f6f6f6 100%);
     --error-color: #ef4444;
     --error-bg: #fef2f2;
     --success-color: #10b981;
@@ -244,6 +244,14 @@ body {
 .eye-icon {
     width: 1.25rem;
     height: 1.25rem;
+}
+
+.eye-icon.eye-closed {
+    display: none;
+}
+
+.button-loader {
+    display: none;
 }
 
 .form-options {

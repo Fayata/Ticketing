@@ -25,4 +25,13 @@ urlpatterns = [
     
     # Halaman Sukses
     path('tiket/sukses/<int:ticket_id>/', views.ticket_success, name='ticket-success'),
+    
+    # Halaman Settings/Profile
+    path('settings/', views.user_settings, name='user-settings'),
+    
+    # Halaman My Tickets
+    path('my-tickets/', views.my_tickets, name='my-tickets'),
+    
+    # Halaman Ticket Detail
+    path('ticket/<int:ticket_id>/', views.ticket_detail, name='ticket-detail'),
 ]

@@ -1,17 +1,21 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Portal Pelanggan</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'forms.css' %}">
 </head>
 <body>
-    <div class="form-container" style="max-width: 400px;">
+    <div class="form-container form-container-small">
         <h2>Login Portal Pelanggan</h2>
         
         {% if form.errors %}
-            <p style="color: red;">Username atau password Anda salah.</p>
+            <div class="alert alert-error">
+                Username atau password Anda salah.
+            </div>
         {% endif %}
 
         <form method="post">
@@ -29,7 +33,7 @@
             
             <button type="submit">Login</button>
         </form>
-        <p style="margin-top: 15px;">Belum punya akun? <a href="/admin/">Buat di Admin</a></p>
-        </div>
+        <p class="form-footer-text">Belum punya akun? <a href="/admin/">Buat di Admin</a></p>
+    </div>
 </body>
 </html>

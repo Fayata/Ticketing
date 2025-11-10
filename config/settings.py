@@ -120,7 +120,12 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+if DEBUG:
+    # Development: Email akan ditampilkan di console/terminal
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    # Production: Gunakan SMTP
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Ganti dengan info dari cloudtech.id
 EMAIL_HOST = 'cloudtech.id' 
@@ -131,7 +136,7 @@ EMAIL_USE_SSL = False          # (atau True jika Anda pakai SSL)
 # --- PASTIKAN BARIS INI ADA DAN DIISI ---
 # Variabel ini harus didefinisikan SEBELUM digunakan
 EMAIL_HOST_USER = 'daffa@cloudtech.id'    
-EMAIL_HOST_PASSWORD = 'At1Cloudt3ch(('  
+EMAIL_HOST_PASSWORD = ''  
 
 # Sekarang Python tahu apa itu EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

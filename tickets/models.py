@@ -42,6 +42,10 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"[{self.status}] #{self.id} {self.title}"
+    
+    def get_reply_count(self):
+        """Mengembalikan jumlah balasan untuk tiket ini"""
+        return self.replies.count()
 
 # Tabel untuk menyimpan balasan-balasan di setiap tiket
 class TicketReply(models.Model):
@@ -89,19 +93,27 @@ class TicketReply(models.Model):
                     f"Tim Support"
                 )
                 
-                logger.info(f"Mengirim email balasan ticket {self.ticket.id} ke {recipient_email}")
-                logger.info(f"Subject: {subject}")
+                logger.info(f"=== MENGIRIM EMAIL BALASAN TICKET ===")
+                logger.info(f"Ticket ID: {self.ticket.id}")
+                logger.info(f"To: {recipient_email}")
                 logger.info(f"From: {settings.DEFAULT_FROM_EMAIL}")
+                logger.info(f"Subject: {subject}")
+                logger.info(f"Email Backend: {settings.EMAIL_BACKEND}")
+                logger.info(f"Message Length: {len(email_message)} characters")
                 
-                send_mail(
-                    subject,
-                    email_message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [recipient_email],
-                    fail_silently=False,
-                )
-                
-                logger.info(f"Email berhasil dikirim ke {recipient_email}")
+                try:
+                    result = send_mail(
+                        subject,
+                        email_message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [recipient_email],
+                        fail_silently=False,
+                    )
+                    logger.info(f"Email berhasil dikirim! Result: {result}")
+                    logger.info(f"=== EMAIL TERKIRIM KE: {recipient_email} ===")
+                except Exception as send_error:
+                    logger.error(f"Error saat mengirim email: {send_error}", exc_info=True)
+                    raise
                 
             except Exception as e:
                 error_msg = f"Error sending reply email untuk ticket {self.ticket.id}: {str(e)}"

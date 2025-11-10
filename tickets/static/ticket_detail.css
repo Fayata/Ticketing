@@ -1,0 +1,315 @@
+/* Ticket Detail Page Styles */
+
+.ticket-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.ticket-header-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.ticket-meta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.ticket-info {
+    flex: 1;
+}
+
+.ticket-id-badge {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.75rem;
+}
+
+.ticket-title-display {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.ticket-badges {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.ticket-badges .status-badge {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+
+.ticket-badges .status-badge.priority-high,
+.ticket-badges .status-badge.priority-medium,
+.ticket-badges .status-badge.priority-low {
+    background: transparent;
+    border: 2px solid currentColor;
+}
+
+.ticket-meta-info {
+    margin-bottom: 1.5rem;
+}
+
+.ticket-meta-row {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.ticket-description-wrapper {
+    margin-top: 1rem;
+}
+
+.ticket-description-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+}
+
+.ticket-description {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.replies-section {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.replies-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.replies-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.replies-list {
+    padding: 1.5rem;
+}
+
+.reply-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+}
+
+.reply-item:last-child {
+    margin-bottom: 0;
+}
+
+.reply-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-purple));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.reply-avatar.support {
+    background: linear-gradient(135deg, var(--success-color), #059669);
+}
+
+.reply-content {
+    flex: 1;
+}
+
+.reply-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.reply-author {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.reply-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    background: var(--success-bg);
+    color: var(--success-color);
+    border-radius: 9999px;
+    margin-left: 0.5rem;
+}
+
+.reply-time {
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+.reply-message {
+    color: var(--text-primary);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.reply-form-section {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+}
+
+.reply-form-header {
+    margin-bottom: 1rem;
+}
+
+.reply-form-header h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.reply-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9375rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ticket-detail-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: var(--transition);
+}
+
+.ticket-detail-back-link:hover {
+    color: var(--primary-blue);
+}
+
+.empty-replies {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-secondary);
+}
+
+.empty-replies svg {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ticket-closed-message {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+}
+
+.ticket-closed-message svg {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    display: block;
+}
+
+.reply-form-alerts {
+    margin-bottom: 1rem;
+}
+
+.reply-form-alert {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.5rem;
+}
+
+.reply-form-alert.success {
+    background: var(--success-bg);
+    color: var(--success-color);
+    border: 1px solid #a7f3d0;
+}
+
+.reply-form-alert.error {
+    background: var(--error-bg);
+    color: var(--error-color);
+    border: 1px solid #fecaca;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ticket-meta-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .ticket-header-card {
+        padding: 1.5rem;
+    }
+    
+    .reply-item {
+        flex-direction: column;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
