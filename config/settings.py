@@ -122,16 +122,13 @@ STATIC_URL = 'static/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# Ganti dengan info dari cloudtech.id
 EMAIL_HOST = 'cloudtech.id' 
 EMAIL_PORT = 587             # (atau 465 jika Anda pakai SSL)
 EMAIL_USE_TLS = True           # (atau False jika Anda pakai SSL)
 EMAIL_USE_SSL = False          # (atau True jika Anda pakai SSL)
 
-# --- PASTIKAN BARIS INI ADA DAN DIISI ---
-# Variabel ini harus didefinisikan SEBELUM digunakan
 EMAIL_HOST_USER = 'daffa@cloudtech.id'    
-EMAIL_HOST_PASSWORD = 'At1Cloudt3ch(('  
+EMAIL_HOST_PASSWORD = ''  
 
 # Sekarang Python tahu apa itu EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
