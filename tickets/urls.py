@@ -20,18 +20,15 @@ urlpatterns = [
     # Halaman Dashboard
     path('dashboard/', views.dashboard, name='dashboard'),
     
+    # Halaman Daftar Tiket
+    path('tiket/', views.my_tickets, name='my-tickets'),
+    
+    # Halaman Detail Tiket
+    path('tiket/<int:ticket_id>/', views.ticket_detail, name='ticket-detail'),
+    
     # Halaman Form Kirim Tiket
     path('kirim-tiket/', views.create_ticket, name='create-ticket'),
     
     # Halaman Sukses
     path('tiket/sukses/<int:ticket_id>/', views.ticket_success, name='ticket-success'),
-    
-    # Halaman Settings/Profile
-    path('settings/', views.user_settings, name='user-settings'),
-    
-    # Halaman My Tickets
-    path('my-tickets/', views.my_tickets, name='my-tickets'),
-    
-    # Halaman Ticket Detail
-    path('ticket/<int:ticket_id>/', views.ticket_detail, name='ticket-detail'),
 ]

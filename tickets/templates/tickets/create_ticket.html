@@ -1,55 +1,136 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kirim Tiket Baru - Portal Ticketing</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="{% static 'forms.css' %}">
-</head>
-<body>
-    <div class="form-container"> 
-        <a href="{% url 'dashboard' %}" class="form-back-link">&larr; Kembali ke Dashboard</a>
-        <h2>Kirim Tiket</h2>
-        
-        <form method="POST"> {% csrf_token %}
 
-            <div class="form-group full-width">
-                <label for="nama">Nama * (dari Akun Anda)</label>
-                <input type="text" id="nama" value="{{ user.get_full_name|default:user.username }}" readonly>
-            </div>
+{% block title %}Kirim Tiket Baru - Portal Ticketing{% endblock %}
 
-            <div class="form-group full-width">
-                <label for="{{ form.reply_to_email.id_for_label }}">{{ form.reply_to_email.label }}</label>
-                {{ form.reply_to_email }}
-                <small>Notifikasi akan dikirim ke email ini.</small>
-            </div>
+{% block nav_create %}active{% endblock %}
 
-            <div class="form-group full-width">
-                <label for="{{ form.title.id_for_label }}">Judul *</label>
-                {{ form.title }}
-            </div>
+{% block page_title %}Kirim Tiket{% endblock %}
+{% block page_subtitle %}Sampaikan kendala atau pertanyaan Anda kepada tim support kami{% endblock %}
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="{{ form.department.id_for_label }}">Departemen</label>
-                    {{ form.department }}
-                </div>
-                
-                <div class="form-group">
-                    <label for="{{ form.priority.id_for_label }}">Prioritas</label>
-                    {{ form.priority }}
-                </div>
-            </div>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'create_ticket.css' %}">
+{% endblock %}
 
-            <div class="form-group full-width">
-                <label for="{{ form.description.id_for_label }}">Pesan *</label>
-                {{ form.description }}
-            </div>
-
-            <button type="submit">Kirim</button>
-        </form>
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h2>Buat Tiket Support Baru</h2>
+        <p>Isi formulir di bawah ini dengan lengkap. Tim support kami akan segera merespons tiket Anda.</p>
     </div>
-</body>
-</html>
+
+    <div class="form-info-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <p>
+            <strong>Tips:</strong> Berikan informasi yang detail dan lengkap agar tim support dapat membantu Anda dengan lebih cepat dan efektif.
+        </p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group full-width">
+            <label for="nama">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Nama Lengkap <span class="required-mark">*</span>
+            </label>
+            <input type="text" id="nama" value="{{ user.get_full_name|default:user.username }}" readonly>
+            <small>Nama akan otomatis diambil dari akun Anda</small>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="{{ form.reply_to_email.id_for_label }}">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                {{ form.reply_to_email.label }} <span class="required-mark">*</span>
+            </label>
+            {{ form.reply_to_email }}
+            <small>Notifikasi dan balasan dari tim support akan dikirim ke email ini</small>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="{{ form.title.id_for_label }}">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+                Judul Tiket <span class="required-mark">*</span>
+            </label>
+            {{ form.title }}
+            <small>Berikan judul yang singkat dan deskriptif tentang masalah Anda</small>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.department.id_for_label }}">
+                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    Departemen
+                </label>
+                {{ form.department }}
+                <small>Pilih departemen yang sesuai dengan masalah Anda</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.priority.id_for_label }}">
+                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    Prioritas
+                </label>
+                {{ form.priority }}
+                <small>Seberapa mendesak masalah ini?</small>
+            </div>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="{{ form.description.id_for_label }}">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                Deskripsi Masalah <span class="required-mark">*</span>
+            </label>
+            {{ form.description }}
+            <small>Jelaskan masalah Anda secara detail. Semakin lengkap informasi yang Anda berikan, semakin cepat kami dapat membantu</small>
+        </div>
+
+        <div class="form-actions">
+            <a href="{% url 'dashboard' %}" class="btn-cancel">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                Batal
+            </a>
+            <button type="submit" class="btn-submit">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 2L11 13"></path>
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+                </svg>
+                Kirim Tiket
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

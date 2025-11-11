@@ -55,10 +55,11 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -133,7 +134,7 @@ EMAIL_USE_TLS = True           # (atau False jika Anda pakai SSL)
 EMAIL_USE_SSL = False          # (atau True jika Anda pakai SSL)
 
 EMAIL_HOST_USER = 'daffa@cloudtech.id'    
-EMAIL_HOST_PASSWORD = ''  
+EMAIL_HOST_PASSWORD = 'Fayataimai15#'  
 
 # Sekarang Python tahu apa itu EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

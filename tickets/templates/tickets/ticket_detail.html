@@ -1,235 +1,256 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Tiket #{{ ticket.id }} - Portal Ticketing</title>
-    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'ticket_detail.css' %}">
-</head>
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <a href="{% url 'dashboard' %}" class="logo">TicketDesk</a>
-                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+
+{% block title %}Tiket #{{ ticket.id }} - {{ ticket.title }}{% endblock %}
+
+{% block nav_tickets %}active{% endblock %}
+
+{% block page_title %}Detail Tiket #{{ ticket.id }}{% endblock %}
+{% block page_subtitle %}{{ ticket.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'ticket_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="ticket-detail-container">
+    <!-- Ticket Header Card -->
+    <div class="card ticket-header-card">
+        <div class="card-body">
+            <div class="ticket-status-header">
+                <div class="ticket-id-badge">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-
-            <nav class="sidebar-nav">
-                <a href="{% url 'dashboard' %}" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    </svg>
-                    <span>Dashboard</span>
-                </a>
-                
-                <a href="{% url 'my-tickets' %}" class="nav-item active">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
                     </svg>
-                    <span>Tiket Saya</span>
-                </a>
+                    <span>Tiket #{{ ticket.id }}</span>
+                </div>
+                <span class="status-badge {% if ticket.status == 'OPEN' %}open{% elif ticket.status == 'IN_PROGRESS' %}in-progress{% else %}closed{% endif %}">
+                    {{ ticket.get_status_display }}
+                </span>
+            </div>
+            
+            <h1 class="ticket-title-large">{{ ticket.title }}</h1>
+            
+            <div class="ticket-meta-grid">
+                <div class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <div>
+                        <span class="meta-label">Dibuat oleh</span>
+                        <span class="meta-value">{{ ticket.created_by.get_full_name|default:ticket.created_by.username }}</span>
+                    </div>
+                </div>
                 
-                <!-- <a href="#" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <div class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                     </svg>
-                    <span>Knowledge Base</span>
-                </a> -->
-            </nav>
-
-            <div class="sidebar-user">
-                <div class="user-info">
-                    <div class="user-avatar">
-                        {{ user.username|slice:":2"|upper }}
-                    </div>
-                    <div class="user-details">
-                        <div class="user-name">{{ user.get_full_name|default:user.username }}</div>
-                        <div class="user-email">{{ user.email }}</div>
+                    <div>
+                        <span class="meta-label">Departemen</span>
+                        <span class="meta-value">{{ ticket.department.name|default:"Tidak Ditentukan" }}</span>
                     </div>
                 </div>
-                <div class="user-actions">
-                    <a href="{% url 'user-settings' %}" class="user-action-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        <span>Settings</span>
-                    </a>
-                    <a href="{% url 'logout' %}" class="user-action-btn logout">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        </svg>
-                        <span>Logout</span>
-                    </a>
+                
+                <div class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <div>
+                        <span class="meta-label">Prioritas</span>
+                        <span class="meta-value priority-{% if ticket.priority == 'HIGH' %}high{% elif ticket.priority == 'MEDIUM' %}medium{% else %}low{% endif %}">
+                            {{ ticket.get_priority_display }}
+                        </span>
+                    </div>
                 </div>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <header class="header">
-                <div class="header-left">
-                    <h1>Detail Tiket #{{ ticket.id }}</h1>
-                    <p>{{ ticket.get_status_display }} - {{ ticket.get_priority_display }} Priority</p>
-                </div>
-                <div class="header-actions">
-                    <a href="{% url 'my-tickets' %}" class="ticket-detail-back-link">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="19" y1="12" x2="5" y2="12"></line>
-                            <polyline points="12 19 5 12 12 5"></polyline>
-                        </svg>
-                        Kembali ke Tiket Saya
-                    </a>
-                </div>
-            </header>
-
-            <div class="content">
-                <div class="ticket-detail-container">
-                    <!-- Ticket Header -->
-                    <div class="ticket-header-card">
-                        <div class="ticket-meta-header">
-                            <div class="ticket-info">
-                                <span class="ticket-id-badge">TICKET #{{ ticket.id }}</span>
-                                <h1 class="ticket-title-display">{{ ticket.title }}</h1>
-                                <div class="ticket-badges">
-                                    <span class="status-badge {% if ticket.status == 'OPEN' %}open{% elif ticket.status == 'IN_PROGRESS' %}in-progress{% else %}closed{% endif %}">
-                                        {{ ticket.get_status_display }}
-                                    </span>
-                                    <span class="status-badge">
-                                        {{ ticket.department.name|default:"Umum" }}
-                                    </span>
-                                    <span class="status-badge priority-{% if ticket.priority == 'HIGH' %}high{% elif ticket.priority == 'MEDIUM' %}medium{% else %}low{% endif %}">
-                                        {{ ticket.get_priority_display }} Priority
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="ticket-meta-info">
-                            <div class="ticket-meta-row">
-                                <div>
-                                    <strong>Dibuat:</strong> {{ ticket.created_at|date:"d M Y, H:i" }}
-                                </div>
-                                <div>
-                                    <strong>Update Terakhir:</strong> {{ ticket.updated_at|date:"d M Y, H:i" }}
-                                </div>
-                                <div>
-                                    <strong>Email:</strong> {{ ticket.reply_to_email|default:user.email }}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="ticket-description-wrapper">
-                            <h3 class="ticket-description-label">DESKRIPSI</h3>
-                            <div class="ticket-description">{{ ticket.description }}</div>
-                        </div>
+                
+                <div class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <div>
+                        <span class="meta-label">Dibuat</span>
+                        <span class="meta-value">{{ ticket.created_at|date:"d M Y, H:i" }}</span>
                     </div>
-
-                    <!-- Replies Section -->
-                    <div class="replies-section">
-                        <div class="replies-header">
-                            <h2>Balasan ({{ replies.count }})</h2>
-                        </div>
-                        
-                        {% if replies %}
-                            <div class="replies-list">
-                                {% for reply in replies %}
-                                <div class="reply-item">
-                                    <div class="reply-avatar {% if reply.user != user %}support{% endif %}">
-                                        {{ reply.user.username|slice:":2"|upper }}
-                                    </div>
-                                    <div class="reply-content">
-                                        <div class="reply-header">
-                                            <div>
-                                                <span class="reply-author">{{ reply.user.get_full_name|default:reply.user.username }}</span>
-                                                {% if reply.user != user %}
-                                                <span class="reply-badge">Support Team</span>
-                                                {% endif %}
-                                            </div>
-                                            <span class="reply-time">{{ reply.created_at|date:"d M Y, H:i" }}</span>
-                                        </div>
-                                        <div class="reply-message">{{ reply.message }}</div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <div class="empty-replies">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                </svg>
-                                <p>Belum ada balasan untuk tiket ini</p>
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Reply Form -->
-                    {% if ticket.status != 'CLOSED' %}
-                    <div class="reply-form-section">
-                        <div class="reply-form-header">
-                            <h3>Tambah Balasan</h3>
-                        </div>
-                        {% if messages %}
-                        <div class="reply-form-alerts">
-                            {% for message in messages %}
-                            <div class="reply-form-alert {{ message.tags }}">
-                                {{ message }}
-                            </div>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                        
-                        <form method="POST" class="reply-form" id="replyForm">
-                            {% csrf_token %}
-                            <textarea 
-                                name="message" 
-                                id="replyMessage"
-                                class="form-textarea" 
-                                placeholder="Tulis balasan Anda di sini..."
-                                required
-                            ></textarea>
-                            <div class="form-actions">
-                                <a href="{% url 'my-tickets' %}" class="ticket-detail-back-link">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                                        <polyline points="12 19 5 12 12 5"></polyline>
-                                    </svg>
-                                    Batal
-                                </a>
-                                <button type="submit" class="btn-primary" id="submitReply">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                                    </svg>
-                                    <span id="submitText">Kirim Balasan</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    {% else %}
-                    <div class="reply-form-section">
-                        <div class="ticket-closed-message">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 6L6 18"></path>
-                                <path d="M6 6L18 18"></path>
-                            </svg>
-                            <p>Tiket ini sudah ditutup. Anda tidak dapat menambahkan balasan.</p>
-                        </div>
-                    </div>
-                    {% endif %}
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 
-    <script src="{% static 'dashboard.js' %}"></script>
-</body>
-</html>
+    <div class="content-grid">
+        <!-- Main Content -->
+        <div class="main-content-area">
+            <!-- Original Message -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Deskripsi Masalah</h2>
+                </div>
+                <div class="card-body">
+                    <div class="message-content">
+                        <div class="message-header">
+                            <div class="message-author">
+                                <div class="author-avatar">
+                                    {{ ticket.created_by.username|slice:":2"|upper }}
+                                </div>
+                                <div>
+                                    <div class="author-name">{{ ticket.created_by.get_full_name|default:ticket.created_by.username }}</div>
+                                    <div class="message-time">{{ ticket.created_at|date:"d M Y, H:i" }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-body">
+                            {{ ticket.description|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Replies -->
+            {% if replies %}
+            <div class="card">
+                <div class="card-header">
+                    <h2>Balasan ({{ replies.count }})</h2>
+                </div>
+                <div class="card-body">
+                    {% for reply in replies %}
+                    <div class="message-content {% if forloop.last %}last{% endif %}">
+                        <div class="message-header">
+                            <div class="message-author">
+                                <div class="author-avatar {% if reply.user.is_staff %}staff{% endif %}">
+                                    {{ reply.user.username|slice:":2"|upper }}
+                                </div>
+                                <div>
+                                    <div class="author-name">
+                                        {{ reply.user.get_full_name|default:reply.user.username }}
+                                        {% if reply.user.is_staff %}
+                                        <span class="staff-badge">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                            </svg>
+                                            Staff
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="message-time">{{ reply.created_at|date:"d M Y, H:i" }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-body">
+                            {{ reply.message|linebreaks }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Reply Form -->
+            {% if ticket.status != 'CLOSED' %}
+            <div class="card">
+                <div class="card-header">
+                    <h2>Tambah Balasan</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="reply-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="message">Pesan Anda</label>
+                            <textarea name="message" id="message" rows="5" placeholder="Tulis balasan Anda di sini..." required></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 2L11 13"></path>
+                                    <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+                                </svg>
+                                Kirim Balasan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="card info-card">
+                <div class="card-body">
+                    <div class="info-message">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <p>Tiket ini sudah ditutup. Anda tidak dapat menambahkan balasan lagi.</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar-area">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Aksi</h2>
+                </div>
+                <div class="card-body">
+                    <div class="action-buttons">
+                        <a href="{% url 'my-tickets' %}" class="action-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
+                            Kembali ke Daftar Tiket
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Informasi Tiket</h2>
+                </div>
+                <div class="card-body">
+                    <div class="info-list">
+                        <div class="info-item">
+                            <span class="info-label">ID Tiket</span>
+                            <span class="info-value">#{{ ticket.id }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Status</span>
+                            <span class="status-badge {% if ticket.status == 'OPEN' %}open{% elif ticket.status == 'IN_PROGRESS' %}in-progress{% else %}closed{% endif %}">
+                                {{ ticket.get_status_display }}
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Prioritas</span>
+                            <span class="info-value priority-{% if ticket.priority == 'HIGH' %}high{% elif ticket.priority == 'MEDIUM' %}medium{% else %}low{% endif %}">
+                                {{ ticket.get_priority_display }}
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Dibuat</span>
+                            <span class="info-value">{{ ticket.created_at|date:"d M Y" }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Terakhir Update</span>
+                            <span class="info-value">{{ ticket.updated_at|date:"d M Y" }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Total Balasan</span>
+                            <span class="info-value">{{ replies.count }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

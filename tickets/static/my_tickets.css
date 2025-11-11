@@ -33,63 +33,58 @@
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     font-size: 0.875rem;
-    font-family: inherit;
-    transition: border-color 0.3s;
+    transition: var(--transition);
 }
 
 .filter-input:focus,
 .filter-select:focus {
     outline: none;
-    border-color: var(--primary-blue);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
 }
 
 .filter-btn {
     padding: 0.625rem 1.5rem;
-    background: var(--primary-blue);
+    background: var(--primary-red);
     color: white;
     border: none;
     border-radius: var(--radius-sm);
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
-    font-size: 0.875rem;
 }
 
 .filter-btn:hover {
-    background: var(--primary-blue-hover);
+    background: var(--primary-red-hover);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
 }
 
-.my-tickets-empty-state {
+.empty-state {
     text-align: center;
     padding: 4rem 2rem;
 }
 
-.my-tickets-empty-state svg {
+.empty-state svg {
     width: 5rem;
     height: 5rem;
     color: var(--text-light);
-    margin-bottom: 1rem;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto 1rem;
 }
 
-.my-tickets-empty-state h3 {
+.empty-state h3 {
     font-size: 1.25rem;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
 
-.my-tickets-empty-state p {
+.empty-state p {
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .filters-form {
         grid-template-columns: 1fr;
     }
 }
-
