@@ -31,4 +31,6 @@ urlpatterns = [
     
     # Halaman Sukses
     path('tiket/sukses/<int:ticket_id>/', views.ticket_success, name='ticket-success'),
+
+    path('settings/', views.user_settings, name='user-settings'),
 ]

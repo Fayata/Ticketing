@@ -89,7 +89,7 @@ body {
 /* Sidebar Styles */
 .sidebar {
     width: 260px;
-    background: var(--bg-primary);
+    background: var(--primary-blue-hover);
     border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;

@@ -69,7 +69,6 @@ class TicketReply(models.Model):
             if not recipient_email:
                 recipient_email = self.ticket.created_by.email
 
-            # Pastikan ada email recipient
             if not recipient_email:
                 logger.error(f"Tidak ada email untuk ticket {self.ticket.id}. User: {self.ticket.created_by.username}")
                 return

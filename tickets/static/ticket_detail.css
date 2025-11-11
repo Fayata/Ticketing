@@ -1,5 +1,32 @@
 /* Ticket Detail Page Styles */
-
+:root {
+    --primary-blue: #ef4522;
+    --primary-blue-hover: #eb2825;
+    --primary-blue-light: #dbeafe;
+    --secondary-purple: #8b5cf6;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-light: #9ca3af;
+    --border-color: #e5e7eb;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-gray: #f3f4f6;
+    --success-color: #10b981;
+    --success-bg: #d1fae5;
+    --warning-color: #f59e0b;
+    --warning-bg: #fef3c7;
+    --error-color: #ef4444;
+    --error-bg: #fee2e2;
+    --info-color: #ee170f;
+    --info-bg: #dbeafe;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+    --radius-lg: 1rem;
+    --transition: all 0.3s ease;
+}
 .ticket-detail-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -192,7 +219,7 @@
 .btn-submit {
     padding: 0.75rem 1.5rem;
     background: var(--primary-red);
-    color: white;
+    color: rgb(205, 26, 26);
     border: none;
     border-radius: var(--radius-sm);
     font-weight: 600;
@@ -204,7 +231,7 @@
 }
 
 .btn-submit:hover {
-    background: var(--primary-red-hover);
+    background: var(--primary-blue-hover);
     box-shadow: var(--shadow-lg);
     transform: translateY(-1px);
 }

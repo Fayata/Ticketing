@@ -134,7 +134,7 @@ EMAIL_USE_TLS = True           # (atau False jika Anda pakai SSL)
 EMAIL_USE_SSL = False          # (atau True jika Anda pakai SSL)
 
 EMAIL_HOST_USER = 'daffa@cloudtech.id'    
-EMAIL_HOST_PASSWORD = 'Fayataimai15#'  
+EMAIL_HOST_PASSWORD = ''  
 
 # Sekarang Python tahu apa itu EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
