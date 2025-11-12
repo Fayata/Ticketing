@@ -16,7 +16,7 @@ class Department(models.Model):
 # Tabel utama untuk menyimpan data Tiket
 class Ticket(models.Model):
     class Status(models.TextChoices):
-        OPEN = 'OPEN', 'Open'
+        WAITING = 'WAITING', 'Menunggu Balasan' 
         IN_PROGRESS = 'IN_PROGRESS', 'In Progress'
         CLOSED = 'CLOSED', 'Closed'
     
@@ -34,7 +34,7 @@ class Ticket(models.Model):
     # Field baru untuk menyimpan email balasan
     reply_to_email = models.EmailField(max_length=254, blank=True)
     
-    status = models.CharField(max_length=20, choices=Status.choices, default=Status.OPEN)
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.WAITING)
     priority = models.CharField(max_length=20, choices=Priority.choices, default=Priority.MEDIUM)
     
     created_at = models.DateTimeField(auto_now_add=True)
@@ -44,7 +44,6 @@ class Ticket(models.Model):
         return f"[{self.status}] #{self.id} {self.title}"
     
     def get_reply_count(self):
-        """Mengembalikan jumlah balasan untuk tiket ini"""
         return self.replies.count()
 
 # Tabel untuk menyimpan balasan-balasan di setiap tiket

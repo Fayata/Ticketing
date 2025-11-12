@@ -54,23 +54,24 @@ def dashboard(request):
     # Ambil semua tiket user
     user_tickets = Ticket.objects.filter(created_by=user).order_by('-created_at')
     
-    # Hitung statistik
-    active_tickets = user_tickets.filter(status='OPEN').count()
+    waiting_tickets = user_tickets.filter(status='WAITING').count() 
     in_progress_tickets = user_tickets.filter(status='IN_PROGRESS').count()
     closed_tickets = user_tickets.filter(status='CLOSED').count()
+    # 2. Tambahkan hitungan total tiket
+    total_tickets = user_tickets.count()
     
     # Ambil tiket terbaru (limit 5)
     recent_tickets = user_tickets[:5]
     
     context = {
-        'active_tickets': active_tickets,
+        'waiting_tickets': waiting_tickets,
         'in_progress_tickets': in_progress_tickets,
         'closed_tickets': closed_tickets,
+        'total_tickets': total_tickets,
         'recent_tickets': recent_tickets,
-        'avg_response_time': 'N/A',  # Bisa diimplementasikan nanti
-        'unread_count': 0,  # Bisa diimplementasikan nanti
-        'announcements': [],  # Bisa diimplementasikan nanti
-        'popular_articles': [],  # Bisa diimplementasikan nanti
+        'unread_count': 0, 
+        'announcements': [],  
+        'popular_articles': [],  
     }
     return render(request, 'tickets/dashboard.html', context)
 @login_required

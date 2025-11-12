@@ -23,6 +23,8 @@ class TicketAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
     inlines = [TicketReplyInline]
     
+    list_editable = ('status', 'priority')
+
     fieldsets = (
         ('Informasi Tiket', {
             'fields': ('title', 'description', 'status', 'priority', 'department')
@@ -35,7 +37,7 @@ class TicketAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
-
+    
     def save_formset(self, request, form, formset, change):
         """
         Override untuk auto-set user ketika membuat reply baru di admin

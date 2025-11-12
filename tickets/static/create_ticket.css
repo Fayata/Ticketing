@@ -1,4 +1,3 @@
-/* Create Ticket Page Styles - Red Theme */
 .form-container {
     max-width: 900px;
     margin: 0 auto;
@@ -156,7 +155,7 @@
     padding: 1.5rem 2rem;
     border-top: 1px solid var(--border-color);
     margin: 0 -2rem -2rem;
-    background: var(--bg-secondary);
+    background: var(--primary-blue);
 }
 
 .btn-cancel {
@@ -255,7 +254,7 @@
     width: 1rem;
     height: 1rem;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
+    border-top-color: rgb(235, 22, 22);
     border-radius: 50%;
     animation: spin 0.6s linear infinite;
     right: 1rem;
