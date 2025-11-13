@@ -122,6 +122,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 # if DEBUG:
+#     # Development: Email akan ditampilkan di console/terminal
 #     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # else:
 #     # Production: Gunakan SMTP

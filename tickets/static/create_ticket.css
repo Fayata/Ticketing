@@ -155,7 +155,7 @@
     padding: 1.5rem 2rem;
     border-top: 1px solid var(--border-color);
     margin: 0 -2rem -2rem;
-    background: var(--primary-blue);
+    background: var(--border-color);
 }
 
 .btn-cancel {
