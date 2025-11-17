@@ -8,8 +8,10 @@ from django.conf import settings
 from django.db.models import Q
 from .forms import TicketForm, UserProfileForm, CustomPasswordChangeForm
 from .models import Ticket, Department
+import logging
 
-# View untuk login user
+logger = logging.getLogger(__name__)
+
 def user_login(request):
     # Jika user sudah login, redirect ke dashboard
     if request.user.is_authenticated:
@@ -19,12 +21,13 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         remember_me = request.POST.get('remember_me')
+        logger.info(f"Mencoba login untuk user: {username}")
         
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            logger.info(f"Autentikasi BERHASIL untuk user: {user.username}")
             login(request, user)
             if not remember_me:
-                # Jika tidak remember me, session akan expire ketika browser ditutup
                 request.session.set_expiry(0)
             else:
                 # Jika remember me, session akan expire dalam 2 minggu
@@ -35,8 +38,10 @@ def user_login(request):
             next_url = request.POST.get('next') or request.GET.get('next')
             if next_url:
                 return redirect(next_url)
+            logger.info(f"Mengarahkan (redirect) user {user.username} ke dashboard")
             return redirect('dashboard')
         else:
+            logger.warning(f"Autentikasi GAGAL untuk user: {username}")
             messages.error(request, 'Username atau password salah. Silakan coba lagi.')
     
     return render(request, 'tickets/login.html')

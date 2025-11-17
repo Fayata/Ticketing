@@ -33,24 +33,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
             const username = document.getElementById('id_username').value.trim();
             const password = document.getElementById('id_password').value;
 
-            // Basic validation
             if (!username || !password) {
-                e.preventDefault();
                 showError('Harap isi semua field yang diperlukan.');
-                return false;
+                return false; 
             }
 
-            // Show loading state
             loginButton.disabled = true;
             loginButton.classList.add('loading');
             buttonText.style.opacity = '0';
             buttonLoader.style.display = 'block';
 
-            // Allow form to submit normally
-            return true;
+            loginForm.submit();
         });
     }
 
