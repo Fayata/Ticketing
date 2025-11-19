@@ -13,6 +13,8 @@ urlpatterns = [
     
     # Halaman Login (custom view untuk user)
     path('login/', views.user_login, name='login'),
+    # Halaman Registrasi user portal
+    path('register/', views.user_register, name='register'),
     
     # Halaman Logout (custom view yang menerima GET request)
     path('logout/', views.user_logout, name='logout'),

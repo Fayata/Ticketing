@@ -143,6 +143,9 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
 
+# Role configuration
+PORTAL_USER_GROUP = 'Portal Users'
+
 # Logging configuration
 LOGGING = {
     'version': 1,

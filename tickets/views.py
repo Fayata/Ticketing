@@ -1,20 +1,53 @@
 # tickets/views.py
 from django.shortcuts import render, redirect, get_object_or_404
+from functools import wraps
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
-from .forms import TicketForm, UserProfileForm, CustomPasswordChangeForm
+from .forms import TicketForm, UserProfileForm, CustomPasswordChangeForm, UserRegistrationForm
 from .models import Ticket, Department
 import logging
 
 logger = logging.getLogger(__name__)
 
+
+def _portal_group_name():
+    return getattr(settings, 'PORTAL_USER_GROUP', 'Portal Users')
+
+
+def ensure_portal_group_exists():
+    Group.objects.get_or_create(name=_portal_group_name())
+
+
+def user_has_portal_role(user):
+    if not user.is_authenticated:
+        return False
+    # Admin (staff/superuser) boleh akses kedua dashboard
+    if user.is_staff or user.is_superuser:
+        return True
+    # User biasa harus tergabung dalam grup Portal Users
+    return user.groups.filter(name=_portal_group_name()).exists()
+
+
+def portal_user_required(view_func):
+    @wraps(view_func)
+    def _wrapped(request, *args, **kwargs):
+        if not user_has_portal_role(request.user):
+            messages.error(request, 'Akses ini khusus untuk akun pengguna portal.')
+            return redirect('login')
+        return view_func(request, *args, **kwargs)
+    return _wrapped
+
 def user_login(request):
-    # Jika user sudah login, redirect ke dashboard
-    if request.user.is_authenticated:
+    ensure_portal_group_exists()
+
+    # Jika user sudah login dan memang user portal, langsung ke dashboard
+    if request.user.is_authenticated and user_has_portal_role(request.user):
         return redirect('dashboard')
     
     if request.method == 'POST':
@@ -26,6 +59,12 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             logger.info(f"Autentikasi BERHASIL untuk user: {user.username}")
+
+            if not user_has_portal_role(user):
+                logger.warning(f"User {user.username} tidak memiliki akses portal.")
+                messages.error(request, 'Akun ini tidak memiliki akses ke dashboard pengguna.')
+                return render(request, 'tickets/login.html')
+
             login(request, user)
             if not remember_me:
                 request.session.set_expiry(0)
@@ -46,6 +85,29 @@ def user_login(request):
     
     return render(request, 'tickets/login.html')
 
+
+def user_register(request):
+    """Registrasi akun baru untuk dashboard user"""
+    ensure_portal_group_exists()
+
+    if request.user.is_authenticated and user_has_portal_role(request.user):
+        return redirect('dashboard')
+
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Tambahkan user baru ke grup Portal Users
+            portal_group, _ = Group.objects.get_or_create(name=_portal_group_name())
+            user.groups.add(portal_group)
+
+            messages.success(request, 'Registrasi berhasil. Silakan login dengan akun Anda.')
+            return redirect('login')
+    else:
+        form = UserRegistrationForm()
+
+    return render(request, 'tickets/register.html', {'form': form})
+
 # View untuk logout user
 def user_logout(request):
     logout(request)
@@ -54,6 +116,7 @@ def user_logout(request):
 
 # View baru untuk Dashboard
 @login_required
+@portal_user_required
 def dashboard(request):
     user = request.user
     # Ambil semua tiket user
@@ -80,6 +143,7 @@ def dashboard(request):
     }
     return render(request, 'tickets/dashboard.html', context)
 @login_required
+@portal_user_required
 def ticket_success(request, ticket_id):
     # Ambil data tiket untuk ditampilkan ID-nya
     ticket = get_object_or_404(Ticket, id=ticket_id)
@@ -89,6 +153,7 @@ def ticket_success(request, ticket_id):
 
 # View untuk halaman "Kirim Tiket"
 @login_required
+@portal_user_required
 def create_ticket(request):
     user = request.user 
 
@@ -151,6 +216,7 @@ def create_ticket(request):
 
 # View untuk Settings/Profile User
 @login_required
+@portal_user_required
 def user_settings(request):
     user = request.user
     
@@ -189,6 +255,7 @@ def user_settings(request):
 
 # View untuk My Tickets (daftar semua tiket user)
 @login_required
+@portal_user_required
 def my_tickets(request):
     user = request.user
     
@@ -238,6 +305,7 @@ def my_tickets(request):
 
 # View untuk Ticket Detail
 @login_required
+@portal_user_required
 def ticket_detail(request, ticket_id):
     user = request.user
     ticket = get_object_or_404(Ticket, id=ticket_id, created_by=user)

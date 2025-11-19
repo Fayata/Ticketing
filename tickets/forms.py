@@ -1,6 +1,6 @@
 # tickets/forms.py
 from django import forms
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import get_user_model
 from .models import Ticket
 
@@ -52,6 +52,29 @@ class UserProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Username tidak bisa diubah jika sudah digunakan oleh user lain
         self.fields['username'].help_text = 'Wajib diisi. Hanya huruf, angka, dan @/./+/-/_ yang diperbolehkan.'
+
+
+class UserRegistrationForm(UserCreationForm):
+    """Form untuk registrasi user portal"""
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+        labels = {
+            'username': 'Username',
+            'email': 'Alamat Email',
+            'password1': 'Password',
+            'password2': 'Konfirmasi Password',
+        }
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'form-input',
+                'placeholder': 'Masukkan username'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-input',
+                'placeholder': 'Masukkan email aktif'
+            }),
+        }
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     """Form untuk mengubah password"""

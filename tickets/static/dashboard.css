@@ -48,6 +48,10 @@
     --primary-blue: #ef4522;
     --primary-blue-hover: #eb2825;
     --primary-blue-light: #dbeafe;
+    --primary-red: #dc143c;
+    --primary-red-hover: #b11030;
+    --primary-red-light: #ffe5ea;
+    --secondary-red: #e63946;
     --secondary-purple: #8b5cf6;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
@@ -393,6 +397,29 @@ body {
     flex: 1;
     padding: 2rem;
     overflow-y: auto;
+}
+
+.messages-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.messages-container .alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    font-size: 0.875rem;
+}
+
+.messages-container .alert-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
 }
 
 /* Welcome Banner */
